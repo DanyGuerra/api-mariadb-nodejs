@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "username": "danyguerra"
+    },
+    {
+      "username": "pedroramirez"
+    },
+    {
+      "username": "jorgealmanza",
+      "correo": "jalmanza@example.com",
+      "createdAt": 1637637558630,
+      "id": 1637637558630
+    },
+    {
+      "username": "jorgealmanza",
+      "correo": "jalmanza@example.com",
+      "createdAt": 1637637907958
+    }
+  ]
+}
