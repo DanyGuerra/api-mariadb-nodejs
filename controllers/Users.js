@@ -14,6 +14,7 @@ const createUser = async (req, res) => {
     res.status(201).send({ user });
   } catch (err) {
     res.status(400).send("Bad request");
+    console.log(err);
   }
 };
 

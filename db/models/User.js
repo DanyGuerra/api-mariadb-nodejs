@@ -1,8 +1,29 @@
 const bcrypt = require("bcrypt");
-const { DataTypes } = require("sequelize");
+const { Model } = require("sequelize");
+const ADMIN_TYPE = "admin";
+const USER_TYPE = "user";
 
-module.exports = (sequelize, dataTypes) => {
-  const modelName = "User";
+const validatePassword = (user) => {
+  const salt = bcrypt.genSaltSync();
+  user.password = bcrypt.hashSync(user.password, salt);
+};
+
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    // validatePassword(password) {
+    //   return bcrypt.compare(password, this.password);
+    // }
+
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+
   const props = {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     username: DataTypes.STRING,
@@ -11,34 +32,21 @@ module.exports = (sequelize, dataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     type: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
   };
-
   const options = {
-    tableName: "users",
-    timestamps: true, //createdAt, updateAt
+    sequelize,
+    modelName: "User",
     hooks: {
-      beforeCreate: (user) => {
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(user.password, salt);
+      beforeCreate(user) {
+        return validatePassword(user);
+      },
+      beforeUpdate(user) {
+        return validatePassword(user);
       },
     },
   };
 
-  const User = sequelize.define(modelName, props, options);
-
-  User.prototype.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
-  };
-
-  // relations
-  // User.associate = function (models) {
-  //   User.hasMany(models.Tasks, {
-  //     as: "tasks",
-  //     foreignKey: "id_user",
-  //   });
-  // };
+  User.init(props, options);
 
   return User;
 };
