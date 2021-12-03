@@ -22,8 +22,8 @@ router.post("/", async (req, res, next) => {
     }
 
     // Generate a token
-    const token = jwt.sign({ userId: user.id }, process.env.SECRET, {
-      expiresIn: 36000,
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_TOKEN, {
+      expiresIn: process.env.JWT_EXPIRATION,
     });
 
     res.json({
