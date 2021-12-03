@@ -26,12 +26,33 @@ module.exports = (sequelize, DataTypes) => {
 
   const props = {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    username: DataTypes.STRING,
-    name: DataTypes.STRING,
-    lastname: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    type: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.ENUM(["admin", "user"]),
+      allowNull: false,
+      defaultValue: USER_TYPE,
+    },
   };
   const options = {
     sequelize,
