@@ -15,7 +15,7 @@ module.exports = (sequelize, dataTypes) => {
     timestamps: true, //createdAt, updateAt
   };
 
-  const User = sequelize.define(modelName, props, options);
+  const Product = sequelize.define(modelName, props, options);
 
   // relations
   // User.associate = function (models) {
