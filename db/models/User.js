@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 const ADMIN_TYPE = "admin";
 const USER_TYPE = "user";
 
-const validatePassword = (user) => {
+const hashPassword = (user) => {
   const salt = bcrypt.genSaltSync();
   user.password = bcrypt.hashSync(user.password, salt);
 };
@@ -11,8 +11,13 @@ const validatePassword = (user) => {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     // validatePassword(password) {
-    //   return bcrypt.compare(password, this.password);
+    //   const salt = bcrypt.genSaltSync();
+    //   user.password = bcrypt.hashSync(user.password, salt);
     // }
+
+    validPassword(password) {
+      return bcrypt.compare(password, this.password);
+    }
 
     /**
      * Helper method for defining associations.
@@ -59,10 +64,10 @@ module.exports = (sequelize, DataTypes) => {
     modelName: "User",
     hooks: {
       beforeCreate(user) {
-        return validatePassword(user);
+        return hashPassword(user);
       },
       beforeUpdate(user) {
-        return validatePassword(user);
+        return hashPassword(user);
       },
     },
   };
