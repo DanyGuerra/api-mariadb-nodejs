@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Model } = require("sequelize");
-const ADMIN_TYPE = "admin";
-const USER_TYPE = "user";
+const { ADMIN_TYPE, USER_TYPE } = require("../../constants/user-types");
 
 const hashPassword = (user) => {
   const salt = bcrypt.genSaltSync();
@@ -54,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM(["admin", "user"]),
+      type: DataTypes.ENUM([ADMIN_TYPE, ADMIN_TYPE]),
       allowNull: false,
       defaultValue: USER_TYPE,
     },

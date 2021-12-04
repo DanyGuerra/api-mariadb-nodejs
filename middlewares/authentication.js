@@ -8,9 +8,10 @@ const authenticate = (req, res, next) => {
   // console.log(token);
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) res.status(401).json({ message: "Unauthorized" });
+    if (err) return res.status(401).json({ message: "Unauthorized" });
 
     req.userId = decoded.userId;
+    // console.log(decoded);
     next();
   });
 };
